@@ -11,7 +11,7 @@ warnings.filterwarnings(action = 'ignore')
 
 import gensim 
 from gensim.models import Word2Vec 
-from gensim.models import gensim.models.phrases
+from gensim.models import phrases
 
 
 sample = open("alice.txt", "r") 
@@ -23,7 +23,7 @@ f = s.replace("\n", " ")
 data = [] 
 
 # iterate through each sentence in the file 
-for i in sent_tokenize(f.decode('utf-8')): 
+for i in sent_tokenize(f): 
 	temp = [] 
 	
 	# tokenize the sentence into words 
@@ -34,26 +34,26 @@ for i in sent_tokenize(f.decode('utf-8')):
 
 # Create CBOW model 
 model1 = gensim.models.Word2Vec(data, min_count = 1, 
-							size = 100, window = 5) 
+							vector_size = 100, window = 5) 
 
 # Print results 
 print("Cosine similarity between 'alice' " +
 			"and 'wonderland' - CBOW : ", 
-	model1.similarity('alice', 'wonderland')) 
+	model1.wv.similarity('alice', 'wonderland')) 
 	
 print("Cosine similarity between 'alice' " +
 				"and 'machines' - CBOW : ", 
-	model1.similarity('alice', 'machines')) 
+	model1.wv.similarity('alice', 'machines')) 
 
 # Create Skip Gram model 
-model2 = gensim.models.Word2Vec(data, min_count = 1, size = 100, 
+model2 = gensim.models.Word2Vec(data, min_count = 1, vector_size = 100, 
 											window = 5, sg = 1) 
 
 # Print results 
 print("Cosine similarity between 'alice' " +
 		"and 'wonderland' - Skip Gram : ", 
-	model2.similarity('alice', 'wonderland')) 
+	model2.wv.similarity('alice', 'wonderland')) 
 	
 print("Cosine similarity between 'alice' " +
 			"and 'machines' - Skip Gram : ", 
-	model2.similarity('alice', 'machines')) 
+	model2.wv.similarity('alice', 'machines')) 

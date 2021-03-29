@@ -6,8 +6,7 @@ import io
 from gensim.test.utils import common_texts
 from gensim.models import Word2Vec
 from gensim.models import phrases
-
-from gensim.models.phrases import Phraser, Phrases
+from gensim.models.phrases import Phraser, Phrases, ENGLISH_CONNECTOR_WORDS
 
 TEXT_DATA_DIR = '20news-bydate-test/'
 # Newsgroups data is split between many files and folders.
@@ -28,7 +27,7 @@ for name in sorted(os.listdir(TEXT_DATA_DIR)):
             # News groups posts are named as numbers, with no extensions.
             if fname.isdigit():
                 fpath = os.path.join(path, fname)
-                f = open(fpath)
+                f = open(fpath, encoding='latin-1')
                 t = f.read()
                 t = str(t)
                 i = t.find('\n\n')  # skip header in file (starts with two newlines.)
@@ -73,7 +72,7 @@ for text in texts:
 # For example, 'state_of_affairs' will be detected because 'of' is provided here: 
 common_terms = ["of", "with", "without", "and", "or", "the", "a"]
 # Create the relevant phrases from the list of sentences:
-phrases = Phrases(all_sentences, common_terms=common_terms)
+phrases = Phrases(all_sentences, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
 # The Phraser object is used from now on to transform sentences
 bigram = Phraser(phrases)
 
@@ -82,9 +81,9 @@ all_sentences = list(bigram[all_sentences])
 
 model = Word2Vec(all_sentences, 
                  min_count=3,   # Ignore words that appear less than this
-                 size=200,      # Dimensionality of word embeddings
+                 vector_size=200,      # Dimensionality of word embeddings
                  workers=2,     # Number of processors (parallelisation)
                  window=5,      # Context window for words during training
-                 iter=30)       # Number of epochs training over corpus
+                 epochs=30)       # Number of epochs training over corpus
 
-#print(model.most_similar('New York'))
+print(model.wv.most_similar('engine'))
