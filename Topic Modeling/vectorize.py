@@ -49,15 +49,15 @@ punc_lower = lambda x: re.sub('[%s]' % re.escape(string.punctuation), ' ', x.low
 mydata_train['data'] = mydata_train.data.map(alphanumeric).map(punc_lower)
 mydata_train["data"] = mydata_train.data.apply(lemmatize_text)
 #now vectorize it
-count_vect = CountVectorizer(stop_words='english',min_df = 0.008)
+count_vect = CountVectorizer(stop_words='english',min_df = 0.0005)
 
 #writing the documents to ap.txt
-f = open("ap.txt", "w")
+""" f = open("ap.txt", "w")
 list(mydata_train)
 print('Training data size:', len(mydata_train['data']))
 for text in mydata_train['data']:
-    f.write("<TEXT>\n"+text.encode('utf-8')+"\n</TEXT>\n")
-f.close()
+    #f.write("<TEXT>\n"+text.encode('utf-8')+"\n</TEXT>\n")
+f.close() """
 
 # Printing all the categories
 #mydata_train.target_names
