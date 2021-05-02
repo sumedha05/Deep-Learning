@@ -200,22 +200,6 @@ pprint(top_topics)
 
 import sklearn.metrics.pairwise as pw
 
-#query_list = []
-#query = input("Enter query")
-#query_list.append(query)
-#query_list= clean_docs(query_list)
-#frequency = defaultdict(int)
-#new_doc = getfrequency(query_list)
-#print(new_doc[0])
-#query_token = query.split()
-#new_bow = dictionary.doc2bow(new_doc[0])
-#new_doc_distribution = np.array([tup[1] for tup in model.get_document_topics(bow=new_bow)])
-doc_topic_dist = np.array([[tup[1] for tup in lst] for lst in model[corpus]])
-#print(doc_topic_dist.shape)
-#print(new_doc_distribution.shape)
-# print the top 8 contributing topics and their words
-''' for i in new_doc_distribution.argsort()[-5:][::-1]:
-    print(i, model.show_topic(topicid=i, topn=10), "\n") '''
 def jensen_shannon(query, matrix):
     """
     This function implements a Jensen-Shannon similarity
@@ -249,6 +233,24 @@ def closest_docs_by_index(corpus_vectors, query_vectors, n_docs):
         docs.append(order[:, i][0:n_docs])
     #print("docs",docs)        
     return np.array(docs)
+####### Remove comments below for query seach 
+""" query_list = []
+query = input("Enter query")
+query_list.append(query)
+query_list= clean_docs(query_list)
+frequency = defaultdict(int)
+new_doc = getfrequency(query_list)
+print(new_doc[0])
+query_token = query.split()
+new_bow = dictionary.doc2bow(new_doc[0])
+new_doc_distribution = np.array([tup[1] for tup in model.get_document_topics(bow=new_bow)]) """
+doc_topic_dist = np.array([[tup[1] for tup in lst] for lst in model[corpus]])
+#print(doc_topic_dist.shape)
+#print(new_doc_distribution.shape)
+# print the top 8 contributing topics and their words
+''' for i in new_doc_distribution.argsort()[-5:][::-1]:
+    print(i, model.show_topic(topicid=i, topn=10), "\n") '''
+
 
 """ #### TO get closest using COSINE
 most_sim_ids = closest_docs_by_index(doc_topic_dist, new_doc_distribution, 10)
